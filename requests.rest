@@ -1,5 +1,10 @@
 GET http://localhost:3000/accounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6IkppbSIsImlhdCI6MTczMTg1MDcyNywiZXhwIjoxNzMxODUwNzQ3fQ.Js-fFX6d0AxyXM9sa-9IiCoqyE02Er8kTENb1rX8vs8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6IkppbSIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTczMTg3NTU2OCwiZXhwIjoxNzMxODc2MTY4fQ.eqI0GmrFSYM1URRpBcuZjtr2ddHaKvh0jX5cmv9ayuw
+
+###
+
+GET http://localhost:3000/allAccounts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6IkjDqWxpbyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTg3NTgxOCwiZXhwIjoxNzMxODc2NDE4fQ.2pNmDzvSVuMs4VqBmdJY77ud02bDeBgbdorwzeuMpnA
 
 ###
 
@@ -7,7 +12,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "username": "Jim"
+  "username": "Hélio"
 }
 
 ###

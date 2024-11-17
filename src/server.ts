@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import users from "./mocks/users.json";
-import accounts from "./mocks/accounts.json";
+import users, { ROLE } from "./mocks/users";
+import accounts from "./mocks/accounts";
 
 const app = express();
 app.use(express.json());
@@ -14,9 +14,14 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 // NOTE: should be in a database on production
 let refreshTokens: string[] = [];
 
-// NOTE: protected route for testing purposes
-app.get("/accounts", authenticateToken, (req, res) => {
+// NOTE: protected route for auth testing purposes
+app.get("/accounts", authToken, (req, res) => {
   res.json(accounts.filter((account) => account.user === req.user.id));
+});
+
+// NOTE: protected route for auth and role testing purposes
+app.get("/allAccounts", authToken, authRole(ROLE.ADMIN), (req, res) => {
+  res.json(accounts);
 });
 
 app.post("/login", (req, res) => {
@@ -70,7 +75,7 @@ app.post("/token", (req, res) => {
   }
 });
 
-function authenticateToken(req: Request, res: Response, next: NextFunction) {
+function authToken(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -86,6 +91,16 @@ function authenticateToken(req: Request, res: Response, next: NextFunction) {
   } catch (error) {
     res.sendStatus(403);
   }
+}
+
+function authRole(role: string) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (req.user.role !== role) {
+      res.sendStatus(401);
+      return;
+    }
+    next();
+  };
 }
 
 app.listen(3000, () => console.log("Server running..."));
