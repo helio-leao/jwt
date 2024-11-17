@@ -55,7 +55,10 @@ app.post("/token", (req, res) => {
   }
 
   try {
-    const { iat, ...user } = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
+    const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
+
+    // @ts-ignore
+    const user = { id: decodedToken.id, username: decodedToken.username };
 
     const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET!, {
       expiresIn: EXPIRATION_TIME,
