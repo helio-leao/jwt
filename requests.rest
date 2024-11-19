@@ -1,5 +1,5 @@
 GET http://localhost:3000/accounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6IkppbSIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTczMTg3NTU2OCwiZXhwIjoxNzMxODc2MTY4fQ.eqI0GmrFSYM1URRpBcuZjtr2ddHaKvh0jX5cmv9ayuw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMSIsInVzZXJuYW1lIjoiSMOpbGlvIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTczMTk3OTkxNiwiZXhwIjoxNzMxOTgwNTE2fQ.tFz5ZtGMqWNThDbOsjQZc1DSC0p5pdN_fbpiSuuMrWg
 
 ###
 
@@ -21,7 +21,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6IkppbSIsImlhdCI6MTczMTg1MTY5Nn0.IAoT7TlqN8m69_1LBdSn52NnQmA5EDcn7EBvPdhtvQ4"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMSIsInVzZXJuYW1lIjoiSMOpbGlvIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTczMTk3OTc0Mn0.7ziJCtDTEuohCe8xN5MWLHkA4rZwgoUABW-aARIOG7k"
 }
 
 ###

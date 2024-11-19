@@ -32,10 +32,10 @@ app.post("/login", (req, res) => {
     return;
   }
 
-  const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET!, {
+  const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET!, {
     expiresIn: EXPIRATION_TIME,
   });
-  const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET!);
+  const refreshToken = jwt.sign({ user }, REFRESH_TOKEN_SECRET!);
 
   refreshTokens.push(refreshToken);
 
@@ -60,12 +60,10 @@ app.post("/token", (req, res) => {
   }
 
   try {
-    const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
-
     // @ts-ignore
-    const user = { id: decodedToken.id, username: decodedToken.username };
+    const { user } = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
 
-    const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET!, {
+    const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET!, {
       expiresIn: EXPIRATION_TIME,
     });
 
@@ -85,7 +83,8 @@ function authToken(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    const user = jwt.verify(token, ACCESS_TOKEN_SECRET!);
+    // @ts-ignore
+    const { user } = jwt.verify(token, ACCESS_TOKEN_SECRET!);
     req.user = user;
     next();
   } catch (error) {
