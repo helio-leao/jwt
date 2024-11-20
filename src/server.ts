@@ -55,7 +55,7 @@ app.post("/token", (req, res) => {
     return;
   }
   if (!refreshTokens.includes(refreshToken)) {
-    res.sendStatus(403);
+    res.sendStatus(401);
     return;
   }
 
@@ -69,7 +69,7 @@ app.post("/token", (req, res) => {
 
     res.json({ accessToken });
   } catch (error) {
-    res.sendStatus(403);
+    res.sendStatus(401);
   }
 });
 
@@ -88,14 +88,14 @@ function authToken(req: Request, res: Response, next: NextFunction) {
     req.user = user;
     next();
   } catch (error) {
-    res.sendStatus(403);
+    res.sendStatus(401);
   }
 }
 
 function authRole(role: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.user.role !== role) {
-      res.sendStatus(401);
+      res.sendStatus(403);
       return;
     }
     next();
