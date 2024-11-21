@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import users, { ROLE } from "./mocks/users";
+import users from "./mocks/users";
 import accounts from "./mocks/accounts";
 
 const app = express();
@@ -20,7 +20,7 @@ app.get("/accounts", authToken, (req, res) => {
 });
 
 // NOTE: protected route for auth and role testing purposes
-app.get("/allAccounts", authToken, authRole(ROLE.ADMIN), (req, res) => {
+app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
   res.json(accounts);
 });
 
@@ -92,9 +92,9 @@ function authToken(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-function authRole(role: string) {
+function authRole(roles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (req.user.role !== role) {
+    if (!roles.includes(req.user.role)) {
       res.sendStatus(403);
       return;
     }
