@@ -39,7 +39,7 @@ app.post("/login", (req, res) => {
 
   refreshTokens.push(refreshToken);
 
-  res.json({ accessToken, refreshToken });
+  res.json({ accessToken, refreshToken, user });
 });
 
 app.delete("/logout", (req, res) => {
