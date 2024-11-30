@@ -8,7 +8,6 @@ const app = express();
 app.use(express.json());
 
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
-const PORT = 3000;
 const TOKEN_EXPIRATION_TIME = "10m";
 
 let refreshTokens: string[] = [];
@@ -224,7 +223,7 @@ function authRole(roles: string[]) {
   };
 }
 
-app.listen(PORT, () => {
+app.listen(3000, () => {
+  swaggerDocs(app);
   console.log("Server running...");
-  swaggerDocs(app, PORT);
 });
