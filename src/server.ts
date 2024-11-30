@@ -21,23 +21,55 @@ let refreshTokens: string[] = [];
  * @openapi
  * /accounts:
  *  get:
- *    tag:
+ *    tags:
  *      - Accounts
- *    description: Protected route that returns the accounts list from the authenticated user
+ *    description: Returns the accounts list from the authenticated user.
  *    responses:
  *      200:
- *        description: Accounts returned successfully
- *
+ *        description: success
+ *      401:
+ *        description: unauthorized
  */
 app.get("/accounts", authToken, (req, res) => {
   res.json(accounts.filter((account) => account.user === req.user.id));
 });
 
-// NOTE: protected route for auth and role testing purposes
+/**
+ * @openapi
+ * /allAccounts:
+ *  get:
+ *    tags:
+ *      - Accounts
+ *    description: Returns the list of all accounts. Authenticated user must have the role admin.
+ *    responses:
+ *      200:
+ *        description: success
+ *      401:
+ *        description: unauthorized
+ *      403:
+ *        description: forbidden
+ */
 app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
   res.json(accounts);
 });
 
+/**
+ * @openapi
+ * /login:
+ *  post:
+ *    tags:
+ *      - Users
+ *    description: Logs into the application.
+ *    requestBody:
+ *      required: true
+ *      contents:
+ *        application/json
+ *    responses:
+ *      200:
+ *        description: success
+ *      404:
+ *        description: not found
+ */
 app.post("/login", (req, res) => {
   const user = users.find((u) => u.username === req.body.username);
 
@@ -56,11 +88,43 @@ app.post("/login", (req, res) => {
   res.json({ accessToken, refreshToken });
 });
 
+/**
+ * @openapi
+ * /logout:
+ *  delete:
+ *    tags:
+ *      - Users
+ *    description: Logs out of the application.
+ *    requestBody:
+ *      required: true
+ *      contents:
+ *        application/json
+ *    responses:
+ *      204:
+ *        description: success
+ */
 app.delete("/logout", (req, res) => {
   refreshTokens = refreshTokens.filter((t) => t !== req.body.refreshToken);
   res.sendStatus(204);
 });
 
+/**
+ * @openapi
+ * /token:
+ *  post:
+ *    tags:
+ *      - Users
+ *    description: Returns new access token.
+ *    requestBody:
+ *      required: true
+ *      contents:
+ *        application/json
+ *    responses:
+ *      200:
+ *        description: success
+ *      401:
+ *        description: unauthorized
+ */
 app.post("/token", (req, res) => {
   const { refreshToken } = req.body;
 
