@@ -8,25 +8,26 @@ const app = express();
 app.use(express.json());
 
 const PORT = 3000;
-
 const TOKEN_EXPIRATION_TIME = "10m";
-
-// NOTE: secrets created by running node on terminal and require("crypto").randomBytes(64).toString("hex")
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
-// NOTE: should be in a database on production
 let refreshTokens: string[] = [];
 
 /**
  * @openapi
  * /accounts:
  *  get:
- *    tags:
- *      - Accounts
- *    description: Returns the accounts list from the authenticated user.
+ *    tags: [Accounts]
+ *    summary: Returns the accounts from the authenticated user.
  *    responses:
  *      200:
  *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Account'
  *      401:
  *        description: unauthorized
  */
@@ -38,12 +39,17 @@ app.get("/accounts", authToken, (req, res) => {
  * @openapi
  * /allAccounts:
  *  get:
- *    tags:
- *      - Accounts
- *    description: Returns the list of all accounts. Authenticated user must have the role admin.
+ *    tags: [Accounts]
+ *    summary: Returns the list of all accounts. Authenticated user must have the role admin.
  *    responses:
  *      200:
  *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Account'
  *      401:
  *        description: unauthorized
  *      403:
@@ -57,9 +63,8 @@ app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
  * @openapi
  * /login:
  *  post:
- *    tags:
- *      - Users
- *    description: Logs into the application.
+ *    tags: [Users]
+ *    summary: Logs into the application.
  *    requestBody:
  *      required: true
  *      contents:
@@ -67,6 +72,15 @@ app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
  *    responses:
  *      200:
  *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                accessToken:
+ *                  type: string
+ *                refreshToken:
+ *                  type: string
  *      404:
  *        description: not found
  */
@@ -92,9 +106,8 @@ app.post("/login", (req, res) => {
  * @openapi
  * /logout:
  *  delete:
- *    tags:
- *      - Users
- *    description: Logs out of the application.
+ *    tags: [Users]
+ *    summary: Logs out of the application.
  *    requestBody:
  *      required: true
  *      contents:
@@ -112,9 +125,8 @@ app.delete("/logout", (req, res) => {
  * @openapi
  * /token:
  *  post:
- *    tags:
- *      - Users
- *    description: Returns new access token.
+ *    tags: [Users]
+ *    summary: Returns new access token.
  *    requestBody:
  *      required: true
  *      contents:
@@ -122,6 +134,13 @@ app.delete("/logout", (req, res) => {
  *    responses:
  *      200:
  *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                accessToken:
+ *                  type: string
  *      401:
  *        description: unauthorized
  */

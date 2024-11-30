@@ -5,10 +5,17 @@ import { Express, Request, Response } from "express";
 
 const options: swaggerJsdoc.Options = {
   definition: {
+    openapi: "3.0.0",
     info: {
       title: name,
       version: version,
+      description: "A JWT demonstration",
     },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
     components: {
       securitySchema: {
         bearerAuth: {
@@ -24,15 +31,16 @@ const options: swaggerJsdoc.Options = {
       },
     ],
   },
-  apis: ["./src/server.ts"],
+  apis: ["./src/server.ts", "./src/mocks/*.ts"],
 };
+
 const swaggerSpec = swaggerJsdoc(options);
 
 function swaggerDocs(app: Express, port: number) {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
   app.get("/docs.json", (req: Request, res: Response) => {
-    res.setHeader("content-type", "application/json");
-    res.send(swaggerSpec);
+    res.setHeader("content-type", "application/json").send(swaggerSpec);
   });
 }
 
