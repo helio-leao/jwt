@@ -7,9 +7,9 @@ import swaggerDocs from "../utils/swagger";
 const app = express();
 app.use(express.json());
 
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 const PORT = 3000;
 const TOKEN_EXPIRATION_TIME = "10m";
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 let refreshTokens: string[] = [];
 
@@ -18,7 +18,7 @@ let refreshTokens: string[] = [];
  * /accounts:
  *  get:
  *    tags: [Accounts]
- *    summary: Returns the accounts from the authenticated user.
+ *    summary: The accounts of the logged user
  *    responses:
  *      200:
  *        description: success
@@ -40,7 +40,7 @@ app.get("/accounts", authToken, (req, res) => {
  * /allAccounts:
  *  get:
  *    tags: [Accounts]
- *    summary: Returns the list of all accounts. Authenticated user must have the role admin.
+ *    summary: The accounts of all users for admins
  *    responses:
  *      200:
  *        description: success
@@ -64,11 +64,19 @@ app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
  * /login:
  *  post:
  *    tags: [Users]
- *    summary: Logs into the application.
+ *    summary: Logs into the application
  *    requestBody:
  *      required: true
- *      contents:
- *        application/json
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              username:
+ *                type: string
+ *                description: The user's username
+ *            required:
+ *              - username
  *    responses:
  *      200:
  *        description: success
@@ -107,11 +115,18 @@ app.post("/login", (req, res) => {
  * /logout:
  *  delete:
  *    tags: [Users]
- *    summary: Logs out of the application.
+ *    summary: Logs out of the application
  *    requestBody:
  *      required: true
- *      contents:
- *        application/json
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              refreshToken:
+ *                type: string
+ *            required:
+ *              - refreshToken
  *    responses:
  *      204:
  *        description: success
@@ -126,11 +141,18 @@ app.delete("/logout", (req, res) => {
  * /token:
  *  post:
  *    tags: [Users]
- *    summary: Returns new access token.
+ *    summary: Issue new access tokens
  *    requestBody:
  *      required: true
- *      contents:
- *        application/json
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              refreshToken:
+ *                type: string
+ *            required:
+ *              - refreshToken
  *    responses:
  *      200:
  *        description: success

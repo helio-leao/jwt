@@ -17,7 +17,7 @@ const options: swaggerJsdoc.Options = {
       },
     ],
     components: {
-      securitySchema: {
+      securitySchemes: {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
