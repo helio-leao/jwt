@@ -65,6 +65,7 @@ app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
  *  post:
  *    tags: [Users]
  *    summary: Logs into the application
+ *    security: []
  *    requestBody:
  *      required: true
  *      content:
@@ -116,6 +117,7 @@ app.post("/login", (req, res) => {
  *  delete:
  *    tags: [Users]
  *    summary: Logs out of the application
+ *    security: []
  *    requestBody:
  *      required: true
  *      content:
@@ -142,6 +144,7 @@ app.delete("/logout", (req, res) => {
  *  post:
  *    tags: [Users]
  *    summary: Issue new access tokens
+ *    security: []
  *    requestBody:
  *      required: true
  *      content:
