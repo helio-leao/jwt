@@ -2,11 +2,14 @@ import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import users from "./mocks/users";
 import accounts from "./mocks/accounts";
+import swaggerDocs from "../utils/swagger";
 
 const app = express();
 app.use(express.json());
 
-const EXPIRATION_TIME = "10m";
+const PORT = 3000;
+
+const TOKEN_EXPIRATION_TIME = "10m";
 
 // NOTE: secrets created by running node on terminal and require("crypto").randomBytes(64).toString("hex")
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
@@ -14,7 +17,18 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 // NOTE: should be in a database on production
 let refreshTokens: string[] = [];
 
-// NOTE: protected route for auth testing purposes
+/**
+ * @openapi
+ * /accounts:
+ *  get:
+ *    tag:
+ *      - Accounts
+ *    description: Protected route that returns the accounts list from the authenticated user
+ *    responses:
+ *      200:
+ *        description: Accounts returned successfully
+ *
+ */
 app.get("/accounts", authToken, (req, res) => {
   res.json(accounts.filter((account) => account.user === req.user.id));
 });
@@ -33,7 +47,7 @@ app.post("/login", (req, res) => {
   }
 
   const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET!, {
-    expiresIn: EXPIRATION_TIME,
+    expiresIn: TOKEN_EXPIRATION_TIME,
   });
   const refreshToken = jwt.sign({ user }, REFRESH_TOKEN_SECRET!);
 
@@ -64,7 +78,7 @@ app.post("/token", (req, res) => {
     const { user } = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
 
     const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET!, {
-      expiresIn: EXPIRATION_TIME,
+      expiresIn: TOKEN_EXPIRATION_TIME,
     });
 
     res.json({ accessToken });
@@ -102,4 +116,7 @@ function authRole(roles: string[]) {
   };
 }
 
-app.listen(3000, () => console.log("Server running..."));
+app.listen(PORT, () => {
+  console.log("Server running...");
+  swaggerDocs(app, PORT);
+});
