@@ -1,8 +1,9 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import jwt from "jsonwebtoken";
 import users from "./mocks/users.json";
 import accounts from "./mocks/accounts.json";
 import TokenPayload from "./types/TokenPayload";
+import { authRole, authToken } from "./middlewares/auth";
 
 const app = express();
 app.use(express.json());
@@ -16,7 +17,7 @@ app.get("/accounts", authToken, (req, res) => {
   res.json(accounts.filter((account) => account.user === req.user.id));
 });
 
-app.get("/allAccounts", authToken, authRole(["admin"]), (req, res) => {
+app.get("/allAccounts", authToken, authRole(["admin"]), (_req, res) => {
   res.json(accounts);
 });
 
@@ -70,33 +71,5 @@ app.post("/token", (req, res) => {
     res.sendStatus(401);
   }
 });
-
-function authToken(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    res.sendStatus(401);
-    return;
-  }
-
-  try {
-    const { user } = jwt.verify(token, ACCESS_TOKEN_SECRET!) as TokenPayload;
-    req.user = user;
-    next();
-  } catch (error) {
-    res.sendStatus(401);
-  }
-}
-
-function authRole(roles: string[]) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!roles.includes(req.user.role)) {
-      res.sendStatus(403);
-      return;
-    }
-    next();
-  };
-}
 
 app.listen(3000, () => console.log("Server running..."));
