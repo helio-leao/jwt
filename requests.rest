@@ -1,10 +1,10 @@
 GET http://localhost:3000/accounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMSIsInVzZXJuYW1lIjoiSMOpbGlvIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTczMjExMDQ4NCwiZXhwIjoxNzMyMTExMDg0fQ.q-4JJ3J97CC1YQDNgt6xdAfrOtYEdQS8r1ZAuq-_DwA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMiIsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIn0sImlhdCI6MTczMzA3MzU0NywiZXhwIjoxNzMzMDc0MTQ3fQ.PtW8I96rIUH1itOvihIdT2MdxF8A5Drczc7YaaexRQQ
 
 ###
 
 GET http://localhost:3000/allAccounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6IkjDqWxpbyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTg3NTgxOCwiZXhwIjoxNzMxODc2NDE4fQ.2pNmDzvSVuMs4VqBmdJY77ud02bDeBgbdorwzeuMpnA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMiIsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIn0sImlhdCI6MTczMzA3MzU0NywiZXhwIjoxNzMzMDc0MTQ3fQ.PtW8I96rIUH1itOvihIdT2MdxF8A5Drczc7YaaexRQQ
 
 ###
 
@@ -12,7 +12,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "username": "Hélio"
+  "username": "user"
 }
 
 ###
@@ -21,7 +21,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMSIsInVzZXJuYW1lIjoiSMOpbGlvIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTczMjExMDQ5OH0.7VMt5f3y50LiXYVlihbvdR7hFKphHNiBYpluvKqj11c"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMiIsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIn0sImlhdCI6MTczMzA3MzU0N30.5Y1F_di-QKhnDntWjFufxKx1aOxHqkJ_HN2h2RxTqUY"
 }
 
 ###
@@ -30,5 +30,5 @@ DELETE http://localhost:3000/logout
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6IkppbSIsImlhdCI6MTczMTg1MTY5Nn0.IAoT7TlqN8m69_1LBdSn52NnQmA5EDcn7EBvPdhtvQ4"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMiIsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIn0sImlhdCI6MTczMzA3MzU0N30.5Y1F_di-QKhnDntWjFufxKx1aOxHqkJ_HN2h2RxTqUY"
 }
