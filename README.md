@@ -27,7 +27,8 @@ This project is a demo of **JWT** authentication and **Roles**.
 4. Create a `.env` file at the root of the project.
 5. Add the environment variables `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` to the dotenv file.
    You can put your own secret keys.
-6. Run `npm run dev` to start the server.
+6. Run `npm run dev` to start the server.  
+   To use this command it's necessary to have the .env file in the root of the project. Optionally, you can add a custom `PORT` variable to it. If not defined, the application will run on port 3000.
 
 ---
 

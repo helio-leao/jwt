@@ -5,6 +5,8 @@ import accounts from "./mocks/accounts.json";
 import TokenPayload from "./types/TokenPayload";
 import { authRole, authToken } from "./middlewares/auth";
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 app.use(express.json());
 
@@ -72,4 +74,4 @@ app.post("/token", (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running..."));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
